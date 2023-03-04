@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require("@nomicfoundation/hardhat-toolbox")
 require("dotenv").config()
 

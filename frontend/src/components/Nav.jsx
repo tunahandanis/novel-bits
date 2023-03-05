@@ -1,16 +1,18 @@
 import Link from "next/link"
 import { Button, PageHeader } from "antd"
-import {
-  changeNetwork,
-  checkIfWalletIsConnected,
-  connectWallet,
-  useAccountContext,
-} from "../context/accountContext"
+import { useAccountContext } from "../context/accountContext"
 import { useEffect } from "react"
 import { formatAccount } from "@/utils/common"
+import { ethers } from "ethers"
 
 const Nav = () => {
-  const [accountState, accountDispatch] = useAccountContext()
+  const {
+    accountState,
+    accountDispatch,
+    checkIfWalletIsConnected,
+    changeNetwork,
+    connectWallet,
+  } = useAccountContext()
   let buttonText
 
   if (accountState.metamaskNotFound) {
@@ -25,6 +27,20 @@ const Nav = () => {
     checkIfWalletIsConnected(accountDispatch)
   }, [])
 
+  const makeTransfer = async () => {
+    const params = {
+      nonce: "0x00",
+      to: "0xFB068ef1410bcF8903490aF4Beea6129C3AE8AAB",
+      from: accountState.account.address,
+      value: ethers.utils.parseUnits("1", 18).toString(),
+    }
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+
+    console.log(params)
+
+    await signer.sendTransaction(params)
+  }
   return (
     <div className="header">
       <PageHeader
@@ -55,9 +71,11 @@ const Nav = () => {
               {accountState.account
                 ? `${formatAccount(accountState?.account.address)} | ${
                     accountState?.account.balance
-                  }`
+                  } FTM`
                 : buttonText}
-              {/* <img className={"its-eth-babe"} src={ethLogo} alt="button" /> */}
+            </Button>
+            <Button type="primary" onClick={makeTransfer}>
+              Transfer
             </Button>
           </>
         }

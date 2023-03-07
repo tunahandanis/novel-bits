@@ -12,6 +12,7 @@ async function dbConnect() {
 
   const db = await mongoose.connect(mongoURI, {
     dbName: "novel_bits",
+
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

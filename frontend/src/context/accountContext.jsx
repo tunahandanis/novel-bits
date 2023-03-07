@@ -65,6 +65,7 @@ const AccountContextProvider = (props) => {
         type: AccountActionTypes.SET_METAMASK_NOT_FOUND,
         payload: false,
       })
+
       const provider = new ethers.providers.Web3Provider(ethereum, "any")
       provider.on("network", (newNetwork, oldNetwork) => {
         if (oldNetwork) {

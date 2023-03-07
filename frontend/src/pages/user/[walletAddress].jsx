@@ -1,7 +1,8 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Input, Modal } from "antd"
+import { Button, Input, Modal, Table } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { getBooksTableColumns } from "@/utils/helpers"
 
 const User = () => {
   const [books, setBooks] = useState()
@@ -9,7 +10,8 @@ const User = () => {
   const [bookNameInput, setBookNameInput] = useState("")
   const [priceInput, setPriceInput] = useState("")
 
-  const { accountState, checkIfWalletIsConnected } = useAccountContext()
+  const { accountState, checkIfWalletIsConnected, accountDispatch } =
+    useAccountContext()
 
   const hideModal = () => {
     setIsNewBookModalOpen(false)
@@ -20,11 +22,11 @@ const User = () => {
   }
 
   const insertBook = async () => {
-    //checkIfWalletIsConnected()
+    checkIfWalletIsConnected(accountDispatch)
 
     const newBook = {
       bookName: bookNameInput,
-      authorWalletAddress: accountState.account.address,
+      authorWalletAddress: accountState?.account?.address,
       premiumPrice: priceInput,
     }
 
@@ -46,11 +48,24 @@ const User = () => {
     fetchBooks()
   }, [])
 
+  if (!books) {
+    return null
+  }
+
   return (
     <div>
       <Button onClick={showModal}>Write a new book!</Button>
+      <div>
+        <Table
+          size="small"
+          dataSource={Object.values(books)}
+          columns={Object.values(getBooksTableColumns())}
+          rowKey={(record) => record?._id}
+          pagination={false}
+        />
+      </div>
       <Modal
-        title="Enter a name for your new NFT collection"
+        title="Create a new book"
         open={isNewBookModalOpen}
         onOk={hideModal}
         onCancel={hideModal}
@@ -76,7 +91,7 @@ const User = () => {
           value={bookNameInput}
         />
         <Input
-          placeholder="Price for premium chapters"
+          placeholder="Price for unlocked chapters"
           onChange={(e) => setPriceInput(e.target.value)}
           value={priceInput}
         />

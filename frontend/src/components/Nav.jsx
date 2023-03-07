@@ -37,8 +37,6 @@ const Nav = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
 
-    console.log(params)
-
     await signer.sendTransaction(params)
   }
   return (
@@ -69,7 +67,7 @@ const Nav = () => {
               }
             >
               {accountState.account
-                ? `${formatAccount(accountState?.account.address)} | ${
+                ? `${formatAccount(accountState?.account?.address)} | ${
                     accountState?.account.balance
                   } FTM`
                 : buttonText}
@@ -77,6 +75,9 @@ const Nav = () => {
             <Button type="primary" onClick={makeTransfer}>
               Transfer
             </Button>
+            <Link href={`/user/${accountState?.account?.address}`}>
+              <Button>Profile</Button>
+            </Link>
           </>
         }
       />

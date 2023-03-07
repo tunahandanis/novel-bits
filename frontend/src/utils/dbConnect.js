@@ -8,9 +8,10 @@ async function dbConnect() {
   }
 
   // eslint-disable-next-line no-undef
-  const mongoURI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@novel-bits.nqwtzmx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+  const mongoURI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@novel-bits.nqwtzmx.mongodb.net/?retryWrites=true&w=majority`
 
   const db = await mongoose.connect(mongoURI, {
+    dbName: "novel_bits",
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

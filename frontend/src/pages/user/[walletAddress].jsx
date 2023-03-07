@@ -35,6 +35,10 @@ const User = () => {
     } catch (e) {
       console.error(e)
     }
+
+    setBookNameInput("")
+    setPriceInput("")
+    setIsNewBookModalOpen(false)
   }
 
   const fetchBooks = async () => {
@@ -75,9 +79,6 @@ const User = () => {
             onClick={() => {
               if (bookNameInput.trim() !== "" && priceInput.trim() !== "") {
                 insertBook()
-                setBookNameInput("")
-                setPriceInput("")
-                setIsNewBookModalOpen(false)
               }
             }}
           >

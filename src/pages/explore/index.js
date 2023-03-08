@@ -1,5 +1,5 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Table } from "antd"
+import { Button, Spin, Table } from "antd"
 import { useEffect, useState } from "react"
 import { getBooksTableColumns } from "@/utils/helpers"
 
@@ -21,7 +21,11 @@ const Explore = () => {
   }, [])
 
   if (!books) {
-    return null
+    return (
+      <div className="spinner-container">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   return (

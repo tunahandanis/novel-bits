@@ -1,5 +1,5 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Input, Modal, Table } from "antd"
+import { Button, Input, Modal, Spin, Table } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { getBooksTableColumns } from "@/utils/helpers"
@@ -53,7 +53,11 @@ const User = () => {
   }, [])
 
   if (!books) {
-    return null
+    return (
+      <div className="spinner-container">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Collapse, Tooltip } from "antd"
+import { Button, Collapse, Spin, Tooltip } from "antd"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { LockOutlined } from "@ant-design/icons"
@@ -11,9 +11,9 @@ const Book = () => {
   const router = useRouter()
   const [book, setBook] = useState()
   const [hasAccess, setHasAccess] = useState(false)
+  const [isBuying, setIsBuying] = useState(false)
 
-  const { checkIfWalletIsConnected, accountDispatch, accountState } =
-    useAccountContext()
+  const { accountState } = useAccountContext()
 
   const buyAccess = async () => {
     const params = {
@@ -28,12 +28,15 @@ const Book = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
 
+    setIsBuying(true)
+
     try {
       await signer.sendTransaction(params)
       await mintAccessNFT()
       await getAccessedBooksByAddress()
     } catch (error) {
       console.error(error)
+      setIsBuying(false)
     }
   }
 
@@ -51,8 +54,10 @@ const Book = () => {
         accountState.account.address
       )
       setHasAccess(books.includes(book._id))
+      setIsBuying(false)
     } catch (error) {
       console.error(error)
+      setIsBuying(false)
     }
   }
 
@@ -71,8 +76,13 @@ const Book = () => {
         book._id
       )
 
-      await transaction.wait()
-      getAccessedBooksByAddress()
+      try {
+        await transaction.wait()
+        getAccessedBooksByAddress()
+      } catch (error) {
+        console.error(error)
+        setIsBuying(false)
+      }
     }
   }
 
@@ -102,7 +112,11 @@ const Book = () => {
   }
 
   if (!book) {
-    return null
+    return (
+      <div className="spinner-container">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   const notEnoughFunds =
@@ -112,11 +126,20 @@ const Book = () => {
     <div className="my-book">
       <h2 className="my-book__title">{book.bookName}</h2>
       {!hasAccess && (
-        <Tooltip title={notEnoughFunds && "Not Enough Funds"}>
-          <Button disabled={notEnoughFunds} onClick={buyAccess}>
-            Buy
-          </Button>
-        </Tooltip>
+        <div className="my-book__buy">
+          <Tooltip title={notEnoughFunds && "Not Enough Funds"}>
+            <Button
+              disabled={notEnoughFunds}
+              onClick={buyAccess}
+              loading={isBuying}
+              size="large"
+              type="primary"
+            >
+              Buy
+            </Button>
+          </Tooltip>
+          <h4>{`${book.premiumPrice} FTM`}</h4>
+        </div>
       )}
       <Collapse expandIcon={() => <LockOutlined />}>
         {book.chapters.map((chapter, index) => (

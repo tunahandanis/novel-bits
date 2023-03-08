@@ -1,5 +1,5 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Input, Modal } from "antd"
+import { Button, Input, Modal, Spin } from "antd"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -62,7 +62,11 @@ const MyBook = () => {
   }
 
   if (!book) {
-    return null
+    return (
+      <div className="spinner-container">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   return (

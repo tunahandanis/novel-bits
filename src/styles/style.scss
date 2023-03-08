@@ -215,3 +215,82 @@ ANT DESIGN
   width: 18px !important;
   height: 18px !important;
 }
+
+/*
+====
+HERO
+====
+*/
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4em;
+
+  &__text {
+    width: 25vw;
+    padding-bottom: 7em;
+    margin-right: 7em;
+  }
+
+  &__image {
+    height: 75vh;
+    margin-left: -1em;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #000;
+
+    object-fit: cover;
+    width: 550px;
+  }
+
+  &__title {
+    color: #fff !important;
+    font-weight: 400 !important;
+  }
+
+  &__para {
+    color: hsl(0, 0%, 65%);
+    font-weight: 400;
+    font-size: 0.95rem;
+    width: 90%;
+    margin: 1.5em 0;
+  }
+
+  &__button {
+    padding: 0.7em 2em;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 0.5em;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__button-explore {
+    margin-right: 1em;
+    background-color: #3fa9ff !important;
+  }
+
+  &__button-write {
+    color: #000 !important;
+    background-color: #fff !important;
+  }
+
+  &__button-disabled {
+    border: 2px solid lighten(#000, 50%) !important;
+    color: lighten(#000, 50%) !important;
+    background-color: transparent !important;
+
+    &:hover {
+      background-color: transparent !important;
+      color: lighten(#000, 50%) !important;
+    }
+  }
+}

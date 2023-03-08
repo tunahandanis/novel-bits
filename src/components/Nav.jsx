@@ -35,13 +35,14 @@ const Nav = () => {
         }}
         title={
           <Link href="/" className="heading">
-            Novelbits
+            NovelBits
           </Link>
         }
         subTitle="Generate artwork through AI, secure it as NFT"
         extra={
           <>
             <Button
+              size="large"
               loading={accountState.isLoading}
               type="primary"
               onClick={() =>
@@ -60,12 +61,18 @@ const Nav = () => {
                 : buttonText}
             </Button>
             <Link href="/explore">
-              <Button type="primary" disabled={!accountState.account}>
+              <Button
+                type="primary"
+                disabled={!accountState.account}
+                size="large"
+              >
                 Explore
               </Button>
             </Link>
             <Link href={`/user/${accountState?.account?.address}`}>
-              <Button disabled={!accountState.account}>Profile</Button>
+              <Button disabled={!accountState.account} size="large">
+                Profile
+              </Button>
             </Link>
           </>
         }

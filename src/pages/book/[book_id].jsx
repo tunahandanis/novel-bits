@@ -119,13 +119,18 @@ const Book = () => {
     )
   }
 
+  const isReaderTheAuthor =
+    book.authorWalletAddress === accountState?.account?.address
+
   const notEnoughFunds =
-    parseInt(book.premiumPrice) >= parseInt(accountState.account.balance)
+    parseInt(book.premiumPrice) >= parseInt(accountState?.account?.balance)
+
+  console.log(isReaderTheAuthor)
 
   return (
     <div className="my-book">
       <h2 className="my-book__title">{book.bookName}</h2>
-      {!hasAccess && (
+      {!hasAccess && !isReaderTheAuthor && (
         <div className="my-book__buy">
           <Tooltip title={notEnoughFunds && "Not Enough Funds"}>
             <Button
@@ -145,8 +150,8 @@ const Book = () => {
         <Collapse expandIcon={() => <LockOutlined />}>
           {book.chapters.map((chapter, index) => (
             <Collapse.Panel
-              showArrow={index > 2 && !hasAccess}
-              disabled={index > 2 && !hasAccess}
+              showArrow={index > 2 && !hasAccess && !isReaderTheAuthor}
+              disabled={index > 2 && !hasAccess && !isReaderTheAuthor}
               header={`Chapter ${index + 1} - ${chapter.chapterName}`}
               key={index}
             >

@@ -141,18 +141,24 @@ const Book = () => {
           <h4>{`${book.premiumPrice} FTM`}</h4>
         </div>
       )}
-      <Collapse expandIcon={() => <LockOutlined />}>
-        {book.chapters.map((chapter, index) => (
-          <Collapse.Panel
-            showArrow={index > 2 && !hasAccess}
-            disabled={index > 2 && !hasAccess}
-            header={`Chapter ${index + 1} - ${chapter.chapterName}`}
-            key={index}
-          >
-            <p>{chapter.content}</p>
-          </Collapse.Panel>
-        ))}
-      </Collapse>
+      {book.chapters.length ? (
+        <Collapse expandIcon={() => <LockOutlined />}>
+          {book.chapters.map((chapter, index) => (
+            <Collapse.Panel
+              showArrow={index > 2 && !hasAccess}
+              disabled={index > 2 && !hasAccess}
+              header={`Chapter ${index + 1} - ${chapter.chapterName}`}
+              key={index}
+            >
+              <p>{chapter.content}</p>
+            </Collapse.Panel>
+          ))}
+        </Collapse>
+      ) : (
+        <div className="my-book__no-chapters">
+          <h3>No Chapters Written</h3>
+        </div>
+      )}
     </div>
   )
 }

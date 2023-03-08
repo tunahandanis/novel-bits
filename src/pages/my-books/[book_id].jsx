@@ -1,5 +1,5 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Input, Modal, Spin } from "antd"
+import { Button, Collapse, Input, Modal, Spin } from "antd"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -72,15 +72,30 @@ const MyBook = () => {
   return (
     <div className="my-book">
       <h2 className="my-book__title">{book.bookName}</h2>
-      <div className="my-book__chapters">
-        {book.chapters.map((chapter, index) => (
-          <div key={index}>
-            <h3>{chapter.chapterName}</h3>
-            <p>{chapter?.content}</p>
-          </div>
-        ))}
-      </div>
-      <Button onClick={showModal}>New Chapter</Button>
+
+      <Button
+        type="primary"
+        onClick={showModal}
+        className="my-book_new-chapter"
+      >
+        New Chapter
+      </Button>
+      {book.chapters.length ? (
+        <Collapse className="my-book__collapse">
+          {book.chapters.map((chapter, index) => (
+            <Collapse.Panel
+              header={`Chapter ${index + 1} - ${chapter.chapterName}`}
+              key={index}
+            >
+              <p>{chapter.content}</p>
+            </Collapse.Panel>
+          ))}
+        </Collapse>
+      ) : (
+        <div className="my-book__no-chapters">
+          <h3>No Chapters Written</h3>
+        </div>
+      )}
       <Modal
         title="Write a new chapter"
         open={isNewChapterModalOpen}
@@ -107,10 +122,11 @@ const MyBook = () => {
           onChange={(e) => setChapterNameInput(e.target.value)}
           value={chapterNameInput}
         />
-        <Input
+        <Input.TextArea
           placeholder="Chapter content"
           onChange={(e) => setContentInput(e.target.value)}
           value={contentInput}
+          className="mt-1"
         />
       </Modal>
     </div>

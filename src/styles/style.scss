@@ -151,6 +151,19 @@ MY BOOK
       margin-bottom: 0;
     }
   }
+
+  &__collapse {
+    margin-top: 2.5em !important;
+  }
+
+  &__no-chapters {
+    h3 {
+      font-size: 1.5rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 1em;
+    }
+  }
 }
 
 /*

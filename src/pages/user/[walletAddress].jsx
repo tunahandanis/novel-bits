@@ -31,7 +31,7 @@ const User = () => {
     }
 
     try {
-      axios.post("/api/createBook", newBook)
+      axios.post("/api/createBook", newBook).then(() => fetchBooks())
     } catch (e) {
       console.error(e)
     }
@@ -45,7 +45,11 @@ const User = () => {
     const res = await fetch("/api/getBooks")
     const json = await res.json()
 
-    setBooks(json)
+    const filteredBooks = json.filter(
+      (book) => book.authorWalletAddress === accountState?.account?.address
+    )
+
+    setBooks(filteredBooks)
   }
 
   useEffect(() => {
@@ -61,9 +65,16 @@ const User = () => {
   }
 
   return (
-    <div>
-      <Button onClick={showModal}>Write a new book!</Button>
-      <div>
+    <div className="profile">
+      <Button
+        onClick={showModal}
+        className="profile__new-button"
+        type="primary"
+        disabled={!accountState.account}
+      >
+        Write a new book!
+      </Button>
+      <div className="profile__table">
         <Table
           size="small"
           dataSource={Object.values(books)}
@@ -75,8 +86,16 @@ const User = () => {
       <Modal
         title="Create a new book"
         open={isNewBookModalOpen}
-        onOk={hideModal}
-        onCancel={hideModal}
+        onOk={() => {
+          hideModal()
+          setBookNameInput("")
+          setPriceInput("")
+        }}
+        onCancel={() => {
+          hideModal()
+          setBookNameInput("")
+          setPriceInput("")
+        }}
         footer={[
           <Button
             key="create"
@@ -94,11 +113,16 @@ const User = () => {
           placeholder="Book name"
           onChange={(e) => setBookNameInput(e.target.value)}
           value={bookNameInput}
+          size="middle"
         />
         <Input
-          placeholder="Price for unlocked chapters"
+          placeholder="Price for unlocking chapters in FTM"
           onChange={(e) => setPriceInput(e.target.value)}
           value={priceInput}
+          className="mt-1"
+          size="middle"
+          type="number"
+          step="0.1"
         />
       </Modal>
     </div>

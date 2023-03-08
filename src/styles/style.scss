@@ -93,6 +93,27 @@ UTILS
   }
 }
 
+.mt-1 {
+  margin-top: 1em;
+}
+
+/*
+=======
+PROFILE
+=======
+*/
+
+.profile {
+  width: 55%;
+  margin: 3em auto 0;
+  padding-bottom: 4em;
+
+  &__new-button {
+    display: inline;
+    margin-bottom: 2em;
+  }
+}
+
 /*
 =======
 MY BOOK

@@ -60,10 +60,12 @@ const Nav = () => {
                 : buttonText}
             </Button>
             <Link href="/explore">
-              <Button type="primary">Explore</Button>
+              <Button type="primary" disabled={!accountState.account}>
+                Explore
+              </Button>
             </Link>
             <Link href={`/user/${accountState?.account?.address}`}>
-              <Button>Profile</Button>
+              <Button disabled={!accountState.account}>Profile</Button>
             </Link>
           </>
         }

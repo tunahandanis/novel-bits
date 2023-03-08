@@ -41,11 +41,7 @@ const reducer = (state, action) => {
         ...state,
         metamaskNotFound: action.payload,
       }
-    case AccountActionTypes.SET_OPENSEA_LINK:
-      return {
-        ...state,
-        openSeaLinks: [...state.openSeaLinks, action.payload],
-      }
+
     default:
       return state
   }

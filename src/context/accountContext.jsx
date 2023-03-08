@@ -22,6 +22,7 @@ const AccountContextProvider = (props) => {
 
       if (!ethereum) {
         alert("Get MetaMask!")
+        dispatch({ type: AccountActionTypes.SET_ISLOADING, payload: false })
         return
       }
 
@@ -33,6 +34,8 @@ const AccountContextProvider = (props) => {
         address: accounts[0],
         balance: Number(ethers.utils.formatEther(balance)).toFixed(3),
       }
+
+      console.log(payload)
 
       dispatch({ type: AccountActionTypes.SET_ACCOUNT, payload })
       dispatch({ type: AccountActionTypes.SET_ISLOADING, payload: false })

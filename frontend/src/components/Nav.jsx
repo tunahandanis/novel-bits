@@ -72,9 +72,9 @@ const Nav = () => {
                   } FTM`
                 : buttonText}
             </Button>
-            <Button type="primary" onClick={makeTransfer}>
-              Transfer
-            </Button>
+            <Link href="/explore">
+              <Button type="primary">Explore</Button>
+            </Link>
             <Link href={`/user/${accountState?.account?.address}`}>
               <Button>Profile</Button>
             </Link>

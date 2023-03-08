@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export const getBooksTableColumns = () => {
+export const getBooksTableColumns = (isAuthor) => {
   const columns = {
     Name: {
       title: () => <strong>Name</strong>,
@@ -22,7 +22,9 @@ export const getBooksTableColumns = () => {
       title: () => <strong>Go To Book</strong>,
       key: "chapters",
       dataIndex: "_id",
-      render: (_id) => <Link href={`/my-books/${_id}`}>Book</Link>,
+      render: (_id) => (
+        <Link href={`/${isAuthor ? "my-books" : "book"}/${_id}`}>Book</Link>
+      ),
     },
   }
 

@@ -63,7 +63,7 @@ const User = () => {
         <Table
           size="small"
           dataSource={Object.values(books)}
-          columns={Object.values(getBooksTableColumns())}
+          columns={Object.values(getBooksTableColumns(true))}
           rowKey={(record) => record?._id}
           pagination={false}
         />

@@ -28,12 +28,15 @@ const MyBook = () => {
   }, [])
 
   const fetchBook = async (bookId) => {
-    const res = await fetch("/api/getBooks")
+    const res = await fetch("/api/fetchBookById", {
+      method: "POST",
+      body: JSON.stringify({
+        bookId: bookId,
+      }),
+    })
     const json = await res.json()
 
-    const foundBook = json.find((e) => e._id === bookId)
-
-    setBook(foundBook)
+    setBook(json)
   }
 
   const insertChapter = async () => {
@@ -65,9 +68,12 @@ const MyBook = () => {
   return (
     <div className="my-book">
       <h2 className="my-book__title">{book.bookName}</h2>
-      <div className="my-book_chapters">
+      <div className="my-book__chapters">
         {book.chapters.map((chapter, index) => (
-          <p key={index}>{chapter?.content}</p>
+          <div key={index}>
+            <h3>{chapter.chapterName}</h3>
+            <p>{chapter?.content}</p>
+          </div>
         ))}
       </div>
       <Button onClick={showModal}>New Chapter</Button>

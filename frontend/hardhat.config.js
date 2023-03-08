@@ -1,15 +1,23 @@
 /* eslint-disable no-undef */
-require("@nomicfoundation/hardhat-toolbox")
+require("@nomiclabs/hardhat-waffle")
+require("@nomiclabs/hardhat-etherscan")
+
 require("dotenv").config()
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.18",
+  solidity: "0.8.7",
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 200,
+    },
+  },
   networks: {
     testnet: {
       url: `https://rpc.testnet.fantom.network`,
       chainId: 4002,
-      accounts: [`${process.env.PRIVATE_KEY}`],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     coverage: {
       url: "http://localhost:8555",

@@ -3,7 +3,6 @@ import { Button, PageHeader } from "antd"
 import { useAccountContext } from "../context/accountContext"
 import { useEffect } from "react"
 import { formatAccount } from "@/utils/common"
-import { ethers } from "ethers"
 
 const Nav = () => {
   const {
@@ -27,18 +26,6 @@ const Nav = () => {
     checkIfWalletIsConnected(accountDispatch)
   }, [])
 
-  const makeTransfer = async () => {
-    const params = {
-      nonce: "0x00",
-      to: "0xFB068ef1410bcF8903490aF4Beea6129C3AE8AAB",
-      from: accountState.account.address,
-      value: ethers.utils.parseUnits("1", 18).toString(),
-    }
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-
-    await signer.sendTransaction(params)
-  }
   return (
     <div className="header">
       <PageHeader

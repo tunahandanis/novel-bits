@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // We require the Hardhat Runtime Environment explicitly here. This is optional
 // but useful for running the script in a standalone fashion through `node <script>`.
 //
@@ -8,22 +9,12 @@ const hre = require("hardhat")
 require("dotenv").config()
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000)
-  const unlockTime = currentTimestampInSeconds + 60
+  const BookAccessNFT = await hre.ethers.getContractFactory("BookAccessNFT")
+  const contract = await BookAccessNFT.deploy()
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.1")
+  console.log(contract.address)
 
-  const Lock = await hre.ethers.getContractFactory("Lock")
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount })
-
-  await lock.deployed()
-
-  /* console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  ) */
-  console.log(await hre.ethers.getSigners())
+  await contract.deployed()
 }
 
 // We recommend this pattern to be able to use async/await everywhere

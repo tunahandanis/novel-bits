@@ -1,8 +1,8 @@
 import { useAccountContext } from "@/context/accountContext"
-import { Button, Collapse, Spin, Tooltip } from "antd"
+import { Button, Collapse, notification, Spin, Tooltip } from "antd"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { LockOutlined } from "@ant-design/icons"
+import { CheckOutlined, LockOutlined } from "@ant-design/icons"
 import { ethers } from "ethers"
 import BookAccessNFT from "../../../artifacts/contracts/BookAccessNFT.sol/BookAccessNFT.json"
 import { contractAddress } from "@/utils/constants"
@@ -31,8 +31,30 @@ const Book = () => {
     setIsBuying(true)
 
     try {
-      await signer.sendTransaction(params)
+      const res = await signer.sendTransaction(params)
+
+      const btn = (
+        <a
+          href={"https://testnet.ftmscan.com/tx/" + res.hash}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span style={{ color: "#40a9ff", cursor: "pointer" }}>
+            {res.hash.slice(0, 30) + "..."}
+          </span>
+        </a>
+      )
+      notification.open({
+        message: `Payment got through`,
+        description: "Click to view on FTMScan",
+        btn,
+        placement: "bottomRight",
+
+        duration: 5,
+        icon: <CheckOutlined style={{ color: "#108ee9" }} />,
+      })
       await mintAccessNFT()
+
       await getAccessedBooksByAddress()
     } catch (error) {
       console.error(error)
@@ -77,7 +99,29 @@ const Book = () => {
       )
 
       try {
-        await transaction.wait()
+        const res = await transaction.wait()
+
+        const btn = (
+          <a
+            href={"https://testnet.ftmscan.com/tx/" + res.transactionHash}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span style={{ color: "#40a9ff", cursor: "pointer" }}>
+              {res.transactionHash.slice(0, 30) + "..."}
+            </span>
+          </a>
+        )
+        notification.open({
+          message: `You just minted the access NFT!`,
+          description: "Click to view transaction on FTMScan",
+          btn,
+          placement: "bottomRight",
+
+          duration: 5,
+          icon: <CheckOutlined style={{ color: "#108ee9" }} />,
+        })
+
         getAccessedBooksByAddress()
       } catch (error) {
         console.error(error)
@@ -96,8 +140,6 @@ const Book = () => {
       getAccessedBooksByAddress()
     }
   }, [book])
-
-  console.log(accountState.account)
 
   const fetchBook = async (bookId) => {
     const res = await fetch("/api/fetchBookById", {

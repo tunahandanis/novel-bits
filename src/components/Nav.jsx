@@ -55,9 +55,7 @@ const Nav = () => {
               }
             >
               {accountState.account
-                ? `${formatAccount(accountState?.account?.address)} | ${
-                    accountState?.account.balance
-                  } FTM`
+                ? `${formatAccount(accountState?.account?.address)}`
                 : buttonText}
             </Button>
             <Link href="/explore">
